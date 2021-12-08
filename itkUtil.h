@@ -8,7 +8,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include <itkNiftiImageIO.h>
-#include <itkBinaryThresholdImageFilter.h>
 #include <itkImportImageFilter.h>
 #include <itkFlipImageFilter.h>
 #include <itkSignedMaurerDistanceMapImageFilter.h>
@@ -140,23 +139,6 @@ namespace itkUtil
 			std::cout << err << std::endl;
 			throw(err);
 		}
-	}
-
-	template <typename TInputImage, typename TOutputImage>
-	typename TOutputImage::Pointer BinaryThreshold(typename TInputImage::Pointer input,
-		typename TInputImage::PixelType lowThresh, typename TInputImage::PixelType upperThresh,
-		typename TOutputImage::PixelType insideValue = static_cast<TOutputImage::PixelType>(1),
-		typename TOutputImage::PixelType outsideValue = static_cast<TOutputImage::PixelType>(0))
-	{
-		typedef itk::BinaryThresholdImageFilter<TInputImage, TOutputImage> ThreshodFilterType;
-		ThreshodFilterType::Pointer threshold = ThreshodFilterType::New();
-		threshold->SetInput(input);
-		threshold->SetLowerThreshold(lowThresh);
-		threshold->SetUpperThreshold(upperThresh);
-		threshold->SetInsideValue(insideValue);
-		threshold->SetOutsideValue(outsideValue);
-		threshold->Update();
-		return threshold->GetOutput();
 	}
 
 #if _MSC_VER >= 1600 
